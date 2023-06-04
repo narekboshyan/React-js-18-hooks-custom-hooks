@@ -1,17 +1,32 @@
+import React, { useEffect, useState } from "react";
 import "./App.css";
-// import UseDebugValue from "./useDebugValue";
-// import DeferredValue from "./useDefferedValue";
-import LayoutEffect from "./useLayoutEffect";
-function App() {
+
+const App = () => {
+ const [name, setName] = useState();
+ const [state, setState] = useState({
+  name: "",
+  selected: false,
+ });
+
+ useEffect(() => {
+  console.log("The state has changed, useEffect runs!");
+ }, [state.name, state.selected]);
+
+ const handleAdd = () => setState((prevState) => ({ ...prevState, name }));
+ const handleSelect = () =>
+  setState((prevState) => ({ ...prevState, selected: true }));
+
  return (
-  <div className="App">
-   <header className="App-header">
-    {/* <UseDebugValue /> */}
-    {/* <DeferredValue /> */}
-    <LayoutEffect />
-   </header>
+  <div>
+   <input type="text" onChange={(e) => setName(e.target.value)} />
+   <button onClick={handleAdd}>Add Name</button>
+   <button onClick={handleSelect}>Select</button>
+   <br />
+   {`{name:${state.name},
+    selected:${state.selected.toString()}
+ }`}
   </div>
  );
-}
+};
 
 export default App;
